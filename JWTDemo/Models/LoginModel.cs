@@ -13,4 +13,8 @@ namespace JWTDemo.Models
         [Required]
         public string Password { get; set; }
     }
+    public class LoginResponseModel
+    {
+        public string Token { get; set; }
+    }
 }
