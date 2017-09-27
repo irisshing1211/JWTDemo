@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace JWTDemo.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+   // [Authorize]
     public class AccountController : Controller
     {
         private readonly BaseEntities _entity;
@@ -43,8 +43,9 @@ namespace JWTDemo.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public IActionResult Post([FromBody]NewAccountResponseModels responseModel)
+        [HttpPost("Create")]
+        [HasPermission("CreateAccount")]
+        public IActionResult Create([FromBody]NewAccountResponseModels responseModel)
         {
             try
             {

@@ -15,6 +15,7 @@ namespace JWTDemo.Models
     }
     public class LoginResponseModel
     {
-        public string Token { get; set; }
+        public string access_token { get; set; }
+        public int expires_in { get; set; }
     }
 }

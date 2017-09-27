@@ -106,7 +106,8 @@ namespace JWTDemo
             {
                 Audience = audience,
                 Issuer = issure,
-                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+                Key = secretKey
             };
             app.UseJWTTokenProviderMiddleware(Options.Create(jwtOptions));
 
