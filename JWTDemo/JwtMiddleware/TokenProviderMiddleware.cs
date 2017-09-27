@@ -81,7 +81,7 @@ namespace JWTDemo.JwtMiddleware
                 }
                 var now = DateTime.UtcNow;
 
-                var apis = _accDal.GetApiList(acc.ID);
+               // var apis = _accDal.GetApiList(acc.ID);
 
                 //    List<Claim> claims = new List<Claim>()
                 //{
@@ -105,7 +105,7 @@ namespace JWTDemo.JwtMiddleware
                 //        signingCredentials: _options.SigningCredentials);
 
                 //    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                var encodedJwt = _jwtHelper.GenerateToken(acc, apis);
+                var encodedJwt = _jwtHelper.GenerateToken(acc);//, apis);
 
                 var response = new
                 {

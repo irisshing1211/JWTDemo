@@ -28,27 +28,28 @@ namespace JWTDemo
         private static readonly string audience = "audience";
         private static SymmetricSecurityKey signingKey;
 
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
-        }
-
-        //public Startup(IHostingEnvironment env)
+        //public Startup(IConfiguration configuration)
         //{
-        //    var builder = new ConfigurationBuilder()
-        //        .SetBasePath(env.ContentRootPath)
-        //        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-        //        .AddEnvironmentVariables();
-        //    Configuration = builder.Build();
+        //    Configuration = configuration;
+        //    signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
         //}
-        public IConfiguration Configuration { get; }
-        //  public IConfigurationRoot Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+        // public IConfiguration Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             // Add framework services.
             services.AddDbContext<BaseEntities>(
                 e =>

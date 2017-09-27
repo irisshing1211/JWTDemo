@@ -17,7 +17,7 @@ namespace JWTDemo.Models
         public TimeSpan ExpireMin { get => _tExpireMin; set => _tExpireMin = value; }
         public string UserName { get => _sUserName; set => _sUserName = value; }
         public DateTime ExpireTime { get => _dExpireTime; set => _dExpireTime = value; }
-        public List<string> Apis { get => _lApis; set => _lApis = value; }
+     //   public List<string> Apis { get => _lApis; set => _lApis = value; }
     }
     public enum JWTStatus
     {

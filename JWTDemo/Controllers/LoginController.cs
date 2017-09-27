@@ -16,13 +16,13 @@ using Newtonsoft.Json;
 namespace JWTDemo.Controllers
 {
     [Route("api/[controller]")]
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         private AccountDAL _accDal;
         private JwtHelper _jwtHelper;
         private TokenProviderOptions _options;
 
-        public LoginController(BaseEntities db, IOptions<TokenProviderOptions> options)
+        public LoginController(BaseEntities db, IOptions<TokenProviderOptions> options) : base(db, options)
         {
             _accDal = new AccountDAL(db);
             _options = options.Value;
@@ -46,9 +46,9 @@ namespace JWTDemo.Controllers
             }
             var now = DateTime.UtcNow;
 
-            var apis = _accDal.GetApiList(acc.ID);
+            //    var apis = _accDal.GetApiList(acc.ID);
 
-            var encodedJwt = _jwtHelper.GenerateToken(acc, apis);
+            var encodedJwt = _jwtHelper.GenerateToken(acc);//, apis);
 
             var response = new LoginResponseModel
             {

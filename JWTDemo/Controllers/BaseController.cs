@@ -4,23 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using JWTDemo.Data;
-using JWTDemo.DAL;
-using JWTDemo.Models;
-using Microsoft.Extensions.Options;
+using JWTDemo.JWTHepler;
 using JWTDemo.JwtMiddleware;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JWTDemo.Controllers
 {
-    [Route("api/[controller]")]
-    public class RoleController :BaseController
+   
+    public class BaseController : Controller
     {
-        private RoleDAL _roleDAL;
+        public BaseEntities _db;
+        private TokenProviderOptions _options;
 
-        public RoleController(BaseEntities db, IOptions<TokenProviderOptions> options) : base(db, options)
+        public BaseController(BaseEntities db, IOptions<TokenProviderOptions> options)
         {
-            _roleDAL = new RoleDAL(db);
+            _db = db;
+            _options = options.Value;
         }
         // GET: api/values
         [HttpGet]
@@ -52,13 +53,6 @@ namespace JWTDemo.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
-        [HttpPost("Create")]
-        [HasPermission("CreateRole")]
-        [Consumes("application/json")]
-        public IActionResult Create([FromBody] RoleCreateRequestModel insert)
-        {
-            return Ok(_roleDAL.Create(insert.RoleName));
         }
     }
 }

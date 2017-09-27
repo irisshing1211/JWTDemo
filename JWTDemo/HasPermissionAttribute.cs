@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JWTDemo.JWTHepler;
 using System.Threading.Tasks;
+using JWTDemo.Controllers;
 
 namespace JWTDemo
 {
@@ -20,7 +21,8 @@ namespace JWTDemo
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var jwthelper = new JwtHelper(filterContext.HttpContext);
+            var db = ((BaseController)filterContext.Controller)._db;
+            var jwthelper = new JwtHelper(filterContext.HttpContext, new DAL.AccountDAL(db));
             if (!jwthelper.CheckApiPermission(_permission))
             {
                 // If this user does not have the required permission then redirect to login page

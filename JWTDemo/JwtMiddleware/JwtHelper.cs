@@ -19,7 +19,7 @@ namespace JWTDemo.JWTHepler
         private string _token;
         private AccountDAL _accountDAL;
         private TokenProviderOptions _options;
-          private string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+        private string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
         /// <summary>
         /// common
         /// </summary>
@@ -28,11 +28,12 @@ namespace JWTDemo.JWTHepler
         /// for vaildate token
         /// </summary>
         /// <param name="context">current request context</param>
-        public JwtHelper(HttpContext context)
+        public JwtHelper(HttpContext context, AccountDAL dal)
         {
             context.Request.Headers.TryGetValue("Authorization", out var token);
             _token = token;
             _token = _token.Replace("Bearer ", "");
+            _accountDAL = dal;
         }
         /// <summary>
         /// for vaildate -> re-generate token, account dal for check the account still exist
@@ -44,7 +45,7 @@ namespace JWTDemo.JWTHepler
             context.Request.Headers.TryGetValue("Authorization", out var token);
             _token = token;
             _token = _token.Replace("Bearer ", "");
-             _accountDAL = accountDAL;
+            _accountDAL = accountDAL;
             _options = options;
         }
         /// <summary>
@@ -63,15 +64,15 @@ namespace JWTDemo.JWTHepler
         /// <param name="userName">account.username</param>
         /// <param name="apis">accessible api list</param>
         /// <returns>token</returns>
-        public string GenerateToken(Account acc, List<string> apis)
+        public string GenerateToken(Account acc)//, List<string> apis)
         {
             var payload = new JwtModel
             {
                 AccId = acc.ID,
                 ExpireMin = _options.Expiration,
                 ExpireTime = DateTime.Now.Add(_options.Expiration),
-                UserName = acc.UserName,
-                Apis = apis
+                UserName = acc.UserName//,
+                //Apis = apis
             };
             //new Dictionary<string, object>
             //{
@@ -132,9 +133,9 @@ namespace JWTDemo.JWTHepler
                 if (acc == null)
                     throw new Exception();
 
-                var apis = _accountDAL.GetApiList(acc.ID);
+                //  var apis = _accountDAL.GetApiList(acc.ID);
 
-                return GenerateToken(acc, apis);
+                return GenerateToken(acc);//, apis);
             }
             catch (Exception ex)
             {
@@ -145,7 +146,8 @@ namespace JWTDemo.JWTHepler
         public bool CheckApiPermission(string apiName)
         {
             var jwtmodel = DecodeToken();
-            return jwtmodel.Apis.Contains(apiName);
+            return _accountDAL.CheckPermission(jwtmodel.AccId, apiName);
+            //return jwtmodel.Apis.Contains(apiName);
         }
 
         /// <summary>
