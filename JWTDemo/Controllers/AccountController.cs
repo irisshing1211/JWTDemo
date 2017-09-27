@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace JWTDemo.Controllers
 {
     [Route("api/[controller]")]
-   // [Authorize]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly BaseEntities _entity;
