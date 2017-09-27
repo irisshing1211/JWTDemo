@@ -8,6 +8,8 @@ using JWTDemo.DAL;
 using JWTDemo.Models;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using JWTDemo.JwtMiddleware;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,15 +17,15 @@ namespace JWTDemo.Controllers
 {
     [Route("api/[controller]")]
    // [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly BaseEntities _entity;
         private AccountDAL _accountDal;
 
-        public AccountController(BaseEntities entity)
+        public AccountController(BaseEntities db, IOptions<TokenProviderOptions> options):base(db, options)
         {
-            _entity = entity;
-            _accountDal = new AccountDAL(entity);
+            _entity = db;
+            _accountDal = new AccountDAL(db);
         }
 
         // GET: api/values
@@ -43,8 +45,9 @@ namespace JWTDemo.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public IActionResult Post([FromBody]NewAccountResponseModels responseModel)
+        [HttpPost("Create")]
+        [HasPermission("CreateAccount")]
+        public IActionResult Create([FromBody]NewAccountResponseModels responseModel)
         {
             try
             {

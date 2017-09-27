@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JWTDemo.JWTHepler;
 using System.Threading.Tasks;
+using JWTDemo.Controllers;
 
 namespace JWTDemo
 {
@@ -18,7 +21,9 @@ namespace JWTDemo
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!CHECK_IF_USER_OR_ROLE_HAS_PERMISSION(_permission))
+            var db = ((BaseController)filterContext.Controller)._db;
+            var jwthelper = new JwtHelper(filterContext.HttpContext, new DAL.AccountDAL(db));
+            if (!jwthelper.CheckApiPermission(_permission))
             {
                 // If this user does not have the required permission then redirect to login page
                 //var url = new UrlHelper(filterContext.HttpContext.Request.HttpContex);
@@ -26,11 +31,6 @@ namespace JWTDemo
                 //filterContext.HttpContext.Response.Redirect(loginUrl, true);
                 throw new UnauthorizedAccessException();
             }
-        }
-        private bool CHECK_IF_USER_OR_ROLE_HAS_PERMISSION(string permissionName)
-        {
-            return true;
-            return false;
         }
     }
 }
