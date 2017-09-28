@@ -29,10 +29,10 @@ namespace JWTDemo.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
+        [HttpGet("GetAll")]
         [Produces(typeof(List<Account>))]
         [HasPermission("GetAllAccount")]
-        public IEnumerable<Account> Get()
+        public IEnumerable<Account> GetAll()
         {
             return _accountDal.GetList();
         }

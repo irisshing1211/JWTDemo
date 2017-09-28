@@ -62,7 +62,7 @@ namespace JWTDemo.JwtMiddleware
                 context.Response.StatusCode = 400;
                 return context.Response.WriteAsync("Bad Request");
             }
-            return GenerateToken(context);
+         //   return GenerateToken(context);
         }
         private async Task GenerateToken(HttpContext context)
         {
