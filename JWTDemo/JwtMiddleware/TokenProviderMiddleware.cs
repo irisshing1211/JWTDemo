@@ -29,7 +29,7 @@ namespace JWTDemo.JwtMiddleware
         {
             _db = db;
             _accDal = new AccountDAL(db);
-           
+
             //if path == login & is post -> gen token
             if (context.Request.Path.Equals(_options.Path, StringComparison.Ordinal) &&
                 context.Request.Method.Equals("POST"))
@@ -55,9 +55,9 @@ namespace JWTDemo.JwtMiddleware
                     default:
                         return _next(context);
                 }
-                
+
             }
-            if (!context.Request.Method.Equals("POST") || !context.Request.HasFormContentType)
+            else// if (!context.Request.Method.Equals("POST") || !context.Request.HasFormContentType)
             {
                 context.Response.StatusCode = 400;
                 return context.Response.WriteAsync("Bad Request");
@@ -81,7 +81,7 @@ namespace JWTDemo.JwtMiddleware
                 }
                 var now = DateTime.UtcNow;
 
-               // var apis = _accDal.GetApiList(acc.ID);
+                // var apis = _accDal.GetApiList(acc.ID);
 
                 //    List<Claim> claims = new List<Claim>()
                 //{
