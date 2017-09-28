@@ -3013,7 +3013,23 @@
           "lib/netstandard1.3/Serilog.dll": {}
         }
       },
-      "Serilog.Extensions.Logging/2.0.2": {
+      "Serilog.AspNetCore/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Hosting.Abstractions": "2.0.0",
+          "Microsoft.Extensions.DependencyInjection": "2.0.0",
+          "Microsoft.Extensions.Logging": "2.0.0",
+          "Serilog": "2.5.0",
+          "Serilog.Extensions.Logging": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Serilog.AspNetCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Serilog.AspNetCore.dll": {}
+        }
+      },
+      "Serilog.Extensions.Logging/2.0.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Logging": "2.0.0",
@@ -7930,10 +7946,21 @@
         "serilog.nuspec"
       ]
     },
-    "Serilog.Extensions.Logging/2.0.2": {
-      "sha512": "PYAkzUn/VV16Es7U06BfEhNZEltnYWu0WFCM4d2lLY/dvlA7xMwFXBuGRxR0XvEBPoOxPorjhFLy9txwiMO6rg==",
+    "Serilog.AspNetCore/2.0.0": {
+      "sha512": "YmJnZ2XJeKlDT+pqOL3K++UJyTQY0TQs4VZKy0WebyhoI+/8FFdlHLewP+4Rgi2s06jk33p+NmzqLH45hwrblw==",
       "type": "package",
-      "path": "serilog.extensions.logging/2.0.2",
+      "path": "serilog.aspnetcore/2.0.0",
+      "files": [
+        "lib/netstandard2.0/Serilog.AspNetCore.dll",
+        "lib/netstandard2.0/Serilog.AspNetCore.xml",
+        "serilog.aspnetcore.2.0.0.nupkg.sha512",
+        "serilog.aspnetcore.nuspec"
+      ]
+    },
+    "Serilog.Extensions.Logging/2.0.0": {
+      "sha512": "JAh1vHmbiwDAjA9VmUQjAXvlGm+vDv8usarajlkx7Arm6Zai+CPY4naE4N9M3Eh520wY5GmIWpM+7zmfMbdTOw==",
+      "type": "package",
+      "path": "serilog.extensions.logging/2.0.0",
       "files": [
         "lib/net45/Serilog.Extensions.Logging.dll",
         "lib/net45/Serilog.Extensions.Logging.xml",
@@ -7945,7 +7972,7 @@
         "lib/netstandard1.3/Serilog.Extensions.Logging.xml",
         "lib/netstandard2.0/Serilog.Extensions.Logging.dll",
         "lib/netstandard2.0/Serilog.Extensions.Logging.xml",
-        "serilog.extensions.logging.2.0.2.nupkg.sha512",
+        "serilog.extensions.logging.2.0.0.nupkg.sha512",
         "serilog.extensions.logging.nuspec"
       ]
     },
@@ -12660,7 +12687,7 @@
       "JWT >= 3.0.3",
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
-      "Serilog.Extensions.Logging >= 2.0.2",
+      "Serilog.AspNetCore >= 2.0.0",
       "Serilog.Sinks.Console >= 3.1.0"
     ]
   },
@@ -12708,6 +12735,10 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Serilog.AspNetCore": {
+            "target": "Package",
+            "version": "2.0.0"
+          },
           "JWT": {
             "target": "Package",
             "version": "3.0.3"
@@ -12720,10 +12751,6 @@
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "2.0.0"
-          },
-          "Serilog.Extensions.Logging": {
-            "target": "Package",
-            "version": "2.0.2"
           },
           "Serilog.Sinks.Console": {
             "target": "Package",
