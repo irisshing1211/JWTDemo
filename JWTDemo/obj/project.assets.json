@@ -3042,6 +3042,20 @@
           "lib/netstandard2.0/Serilog.Extensions.Logging.dll": {}
         }
       },
+      "Serilog.Settings.Configuration/2.4.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+          "Microsoft.Extensions.DependencyModel": "1.0.0",
+          "Serilog": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard1.6/Serilog.Settings.Configuration.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Serilog.Settings.Configuration.dll": {}
+        }
+      },
       "Serilog.Sinks.Console/3.1.0": {
         "type": "package",
         "dependencies": {
@@ -8010,6 +8024,19 @@
         "serilog.extensions.logging.nuspec"
       ]
     },
+    "Serilog.Settings.Configuration/2.4.0": {
+      "sha512": "C9ctS2ULrGkJgDS3uP5eXHkYmggd+KwI8Nu0ZfHRNDq6G7a1x3rXEUpvFe6bUfI/VoWqytazf6kmtYFZSF5Peg==",
+      "type": "package",
+      "path": "serilog.settings.configuration/2.4.0",
+      "files": [
+        "lib/net451/Serilog.Settings.Configuration.dll",
+        "lib/net451/Serilog.Settings.Configuration.xml",
+        "lib/netstandard1.6/Serilog.Settings.Configuration.dll",
+        "lib/netstandard1.6/Serilog.Settings.Configuration.xml",
+        "serilog.settings.configuration.2.4.0.nupkg.sha512",
+        "serilog.settings.configuration.nuspec"
+      ]
+    },
     "Serilog.Sinks.Console/3.1.0": {
       "sha512": "n3AuhND1fDN4u0h80xVIh9brWAo55l0dHnIFGVpdL8uH73tYiWmvst2rFpsEw8WialNirtyR4Ku+hnnfnJwnhQ==",
       "type": "package",
@@ -12748,6 +12775,7 @@
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
       "Serilog.AspNetCore >= 2.0.0",
+      "Serilog.Settings.Configuration >= 2.4.0",
       "Serilog.Sinks.Console >= 3.1.0",
       "Serilog.Sinks.RollingFile >= 3.3.0"
     ]
@@ -12812,6 +12840,10 @@
             "target": "Package",
             "version": "2.0.0",
             "autoReferenced": true
+          },
+          "Serilog.Settings.Configuration": {
+            "target": "Package",
+            "version": "2.4.0"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",

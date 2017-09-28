@@ -8,19 +8,22 @@ using JWTDemo.DAL;
 using JWTDemo.Models;
 using Microsoft.Extensions.Options;
 using JWTDemo.JwtMiddleware;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JWTDemo.Controllers
 {
     [Route("api/[controller]")]
-    public class RoleController :BaseController
+    public class RoleController : BaseController
     {
         private RoleDAL _roleDAL;
+        private ILogger<RoleController> _logger;
 
-        public RoleController(BaseEntities db, IOptions<TokenProviderOptions> options) : base(db, options)
+        public RoleController(BaseEntities db, IOptions<TokenProviderOptions> options, ILogger<RoleController> logger) : base(db, options, logger)
         {
             _roleDAL = new RoleDAL(db);
+            _logger = logger;
         }
         // GET: api/values
         [HttpGet]

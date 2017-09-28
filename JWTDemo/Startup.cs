@@ -18,6 +18,7 @@ using JWTDemo.JwtMiddleware;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Serilog;
 
 namespace JWTDemo
 {
@@ -91,6 +92,8 @@ namespace JWTDemo
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
+           
+            //    services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             //  services.AddSwaggerGen();
         }
 
@@ -113,7 +116,7 @@ namespace JWTDemo
             app.UseJWTTokenProviderMiddleware(Options.Create(jwtOptions));
 
             app.UseMvc();
-
+           
 
         }
     }

@@ -25,14 +25,16 @@ namespace JWTDemo
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Debug()
                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-               .Enrich.FromLogContext()
+               .Enrich.FromLogContext()               
                .WriteTo.Console()
+               .ReadFrom.Configuration(configuration)
+              // .WriteTo.RollingFile("log-{Date}.txt")
                .CreateLogger();
 
             //BuildWebHost(args).Run();
             try
             {
-                Log.Information("Getting the motors running...");
+                Log.Information("Application start....");
 
                 var host = new WebHostBuilder()
                     .UseKestrel()
