@@ -10,6 +10,7 @@ using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using JWTDemo.JwtMiddleware;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,18 +22,22 @@ namespace JWTDemo.Controllers
     {
         private readonly BaseEntities _entity;
         private AccountDAL _accountDal;
+        ILogger<AccountController> _logger;
 
-        public AccountController(BaseEntities db, IOptions<TokenProviderOptions> options):base(db, options)
+        public AccountController(BaseEntities db, 
+            IOptions<TokenProviderOptions> options, 
+            ILogger<AccountController> logger) :base(db, options, logger)
         {
             _entity = db;
             _accountDal = new AccountDAL(db);
+            _logger = logger;
         }
 
         // GET: api/values
-        [HttpGet]
+        [HttpGet("GetAll")]
         [Produces(typeof(List<Account>))]
         [HasPermission("GetAllAccount")]
-        public IEnumerable<Account> Get()
+        public IEnumerable<Account> GetAll()
         {
             return _accountDal.GetList();
         }

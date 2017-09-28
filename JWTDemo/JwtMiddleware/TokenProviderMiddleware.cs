@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using JWTDemo.JwtMiddleware;
+using Microsoft.Extensions.Logging;
 
 namespace JWTDemo.JwtMiddleware
 {
@@ -18,11 +19,13 @@ namespace JWTDemo.JwtMiddleware
         private BaseEntities _db;
         private AccountDAL _accDal;
         private JwtHelper _jwtHelper;
+        ILogger<TokenProviderMiddleware> _logger;
 
-        public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options)
+        public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options, ILogger<TokenProviderMiddleware> logger)
         {
             _next = next;
             _options = options.Value;
+            _logger = logger;
         }
 
         public Task Invoke(HttpContext context, BaseEntities db)
@@ -49,10 +52,13 @@ namespace JWTDemo.JwtMiddleware
                 {
                     case Models.JWTStatus.Invalid:
                         context.Response.StatusCode = 400;
+                        _logger.LogWarning(LoggingEvents.BadRequest, "Validate token");
                         return context.Response.WriteAsync("Bad Request");
                     case Models.JWTStatus.Timeout:
+                        _logger.LogWarning(LoggingEvents.Timeout, "Token Timeout");
                         return RefreshToken(context);
                     default:
+                        _logger.LogInformation("Valid Token");
                         return _next(context);
                 }
 
@@ -62,71 +68,72 @@ namespace JWTDemo.JwtMiddleware
                 context.Response.StatusCode = 400;
                 return context.Response.WriteAsync("Bad Request");
             }
-            return GenerateToken(context);
+            //   return GenerateToken(context);
         }
-        private async Task GenerateToken(HttpContext context)
-        {
-            try
-            {
-                string username = context.Request.Form["UserName"];
-                string password = context.Request.Form["Password"];
+        //private async Task GenerateToken(HttpContext context)
+        //{
+        //    try
+        //    {
+        //        string username = context.Request.Form["UserName"];
+        //        string password = context.Request.Form["Password"];
 
-                var acc = _accDal.Login(username, password);
+        //        var acc = _accDal.Login(username, password);
 
-                if (acc == null)
-                {
-                    context.Response.StatusCode = 400;
-                    await context.Response.WriteAsync("Invalid username or password");
-                    return;
-                }
-                var now = DateTime.UtcNow;
+        //        if (acc == null)
+        //        {
+        //            context.Response.StatusCode = 400;
+        //            _logger.LogWarning(LoggingEvents.Unauthorized, "{Action}: {name}", "GenerateToken", acc.UserName);
+        //            await context.Response.WriteAsync("Invalid username or password");
+        //            return;
+        //        }
+        //        var now = DateTime.UtcNow;
 
-                // var apis = _accDal.GetApiList(acc.ID);
+        //        // var apis = _accDal.GetApiList(acc.ID);
 
-                //    List<Claim> claims = new List<Claim>()
-                //{
-                //    new Claim(ClaimTypes.NameIdentifier, acc.ID.ToString()),
-                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                //    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-                //};
+        //        //    List<Claim> claims = new List<Claim>()
+        //        //{
+        //        //    new Claim(ClaimTypes.NameIdentifier, acc.ID.ToString()),
+        //        //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //        //    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+        //        //};
 
-                //    foreach (var x in apis)
-                //    {
-                //        claims.Add(new Claim(ClaimTypes.Role, x));
-                //    }
+        //        //    foreach (var x in apis)
+        //        //    {
+        //        //        claims.Add(new Claim(ClaimTypes.Role, x));
+        //        //    }
 
 
-                //    var jwt = new JwtSecurityToken(
-                //        issuer: _options.Issuer,
-                //        audience: _options.Audience,
-                //        claims: claims,
-                //        notBefore: now,
-                //        expires: now.Add(_options.Expiration),
-                //        signingCredentials: _options.SigningCredentials);
+        //        //    var jwt = new JwtSecurityToken(
+        //        //        issuer: _options.Issuer,
+        //        //        audience: _options.Audience,
+        //        //        claims: claims,
+        //        //        notBefore: now,
+        //        //        expires: now.Add(_options.Expiration),
+        //        //        signingCredentials: _options.SigningCredentials);
 
-                //    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                var encodedJwt = _jwtHelper.GenerateToken(acc);//, apis);
+        //        //    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+        //        var encodedJwt = _jwtHelper.GenerateToken(acc);//, apis);
 
-                var response = new
-                {
-                    access_token = encodedJwt,
-                    expires_in = (int)_options.Expiration.TotalSeconds
-                };
+        //        var response = new
+        //        {
+        //            access_token = encodedJwt,
+        //            expires_in = (int)_options.Expiration.TotalSeconds
+        //        };
 
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(response,
-                    new JsonSerializerSettings
-                    {
-                        Formatting = Formatting.Indented
-                    }));
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = 400;
-                await context.Response.WriteAsync($"Exception {ex.Message}");
-                return;
-            }
-        }
+        //        context.Response.ContentType = "application/json";
+        //        await context.Response.WriteAsync(JsonConvert.SerializeObject(response,
+        //            new JsonSerializerSettings
+        //            {
+        //                Formatting = Formatting.Indented
+        //            }));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        context.Response.StatusCode = 400;
+        //        await context.Response.WriteAsync($"Exception {ex.Message}");
+        //        return;
+        //    }
+        //}
 
         private async Task RefreshToken(HttpContext context)
         {

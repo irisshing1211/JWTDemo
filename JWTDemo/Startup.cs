@@ -18,6 +18,7 @@ using JWTDemo.JwtMiddleware;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Serilog;
 
 namespace JWTDemo
 {
@@ -91,14 +92,16 @@ namespace JWTDemo
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
+           
+            //    services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             //  services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)//, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
 
             // app.UseJwtBearerAuthentication();
             app.UseAuthentication();
@@ -113,7 +116,7 @@ namespace JWTDemo
             app.UseJWTTokenProviderMiddleware(Options.Create(jwtOptions));
 
             app.UseMvc();
-
+           
 
         }
     }

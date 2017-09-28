@@ -7,52 +7,32 @@ using JWTDemo.Data;
 using JWTDemo.JWTHepler;
 using JWTDemo.JwtMiddleware;
 using Microsoft.Extensions.Options;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JWTDemo.Controllers
 {
-   
+
     public class BaseController : Controller
     {
         public BaseEntities _db;
         private TokenProviderOptions _options;
+        ILogger<BaseController> _logger;
 
-        public BaseController(BaseEntities db, IOptions<TokenProviderOptions> options)
+        public BaseController(BaseEntities db, IOptions<TokenProviderOptions> options, ILogger<BaseController> logger)
         {
             _db = db;
             _options = options.Value;
+            _logger = logger;
         }
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        public void Logging(int loggingEvents, string message)//, object obj)
         {
-            return new string[] { "value1", "value2" };
+            _logger.LogInformation(LoggingEvents.Location, "{controller}/{action}",
+                ControllerContext.ActionDescriptor.ControllerName,
+                ControllerContext.ActionDescriptor.ActionName);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
