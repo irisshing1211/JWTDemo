@@ -21,8 +21,10 @@ namespace JWTDemo
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var db = ((BaseController)filterContext.Controller)._db;
-            var jwthelper = new JwtHelper(filterContext.HttpContext, new DAL.AccountDAL(db));
+            var controller = (BaseController)filterContext.Controller;
+            var db = controller._db;
+            var options = controller._jwtSetting;
+            var jwthelper = new JwtHelper(filterContext.HttpContext, new DAL.AccountDAL(db), options);
             if (!jwthelper.CheckApiPermission(_permission))
             {
                 // If this user does not have the required permission then redirect to login page

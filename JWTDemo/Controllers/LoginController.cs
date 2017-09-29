@@ -22,17 +22,21 @@ namespace JWTDemo.Controllers
     {
         private AccountDAL _accDal;
         private JwtHelper _jwtHelper;
-        private TokenProviderOptions _options;
+        private JwtSetting _options;
         ILogger<LoginController> _logger;
 
         public LoginController(BaseEntities db,
-            IOptions<TokenProviderOptions> options,
+            IOptions<JwtSetting> options,
             ILogger<LoginController> logger) : base(db, options, logger)
         {
-            _accDal = new AccountDAL(db);
-            _options = options.Value;
-            _jwtHelper = new JwtHelper(_accDal, _options);
-            _logger = logger;
+            try
+            {
+                _accDal = new AccountDAL(db);
+                _options = options.Value;
+                _jwtHelper = new JwtHelper(_accDal, _options);
+                _logger = logger;
+            }
+            catch (Exception ex) { }
         }
         //public LoginController(BaseEntities db)//, IOptions<TokenProviderOptions> options)
         //{
@@ -59,13 +63,13 @@ namespace JWTDemo.Controllers
             var response = new LoginResponseModel
             {
                 access_token = encodedJwt,
-                expires_in = (int)_options.Expiration.TotalSeconds
+                expires_in = (int)_options.Expire//.Expiration//.TotalSeconds
             };
             //  _logger.LogInformation($"{acc.UserName} Login.");
             base.Logging(LoggingEvents.Login, "");
             _logger.LogInformation(LoggingEvents.Login, "Login {ID}", acc.UserName);
 
-            return Ok(JsonConvert.SerializeObject(response));
+            return Json(JsonConvert.SerializeObject(response));
         }
     }
 }

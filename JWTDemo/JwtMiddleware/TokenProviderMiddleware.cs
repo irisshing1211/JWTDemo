@@ -16,15 +16,17 @@ namespace JWTDemo.JwtMiddleware
     {
         private readonly RequestDelegate _next;
         private TokenProviderOptions _options;
+        private JwtSetting _setting;
         private BaseEntities _db;
         private AccountDAL _accDal;
         private JwtHelper _jwtHelper;
         ILogger<TokenProviderMiddleware> _logger;
 
-        public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options, ILogger<TokenProviderMiddleware> logger)
+        public TokenProviderMiddleware(RequestDelegate next, IOptions<TokenProviderOptions> options, IOptions<JwtSetting> setting, ILogger<TokenProviderMiddleware> logger)
         {
             _next = next;
             _options = options.Value;
+            _setting = setting.Value;
             _logger = logger;
         }
 
@@ -46,7 +48,7 @@ namespace JWTDemo.JwtMiddleware
                 !string.IsNullOrEmpty(context.Request.Headers["Authorization"]) && context.Request.Headers["Authorization"].ToString().StartsWith("Bearer"))
             {
 
-                _jwtHelper = new JwtHelper(context, _accDal, _options);
+                _jwtHelper = new JwtHelper(context, _accDal, _setting);
                 var status = _jwtHelper.VaildateToken();
                 switch (status)
                 {
@@ -70,70 +72,6 @@ namespace JWTDemo.JwtMiddleware
             }
             //   return GenerateToken(context);
         }
-        //private async Task GenerateToken(HttpContext context)
-        //{
-        //    try
-        //    {
-        //        string username = context.Request.Form["UserName"];
-        //        string password = context.Request.Form["Password"];
-
-        //        var acc = _accDal.Login(username, password);
-
-        //        if (acc == null)
-        //        {
-        //            context.Response.StatusCode = 400;
-        //            _logger.LogWarning(LoggingEvents.Unauthorized, "{Action}: {name}", "GenerateToken", acc.UserName);
-        //            await context.Response.WriteAsync("Invalid username or password");
-        //            return;
-        //        }
-        //        var now = DateTime.UtcNow;
-
-        //        // var apis = _accDal.GetApiList(acc.ID);
-
-        //        //    List<Claim> claims = new List<Claim>()
-        //        //{
-        //        //    new Claim(ClaimTypes.NameIdentifier, acc.ID.ToString()),
-        //        //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //        //    new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-        //        //};
-
-        //        //    foreach (var x in apis)
-        //        //    {
-        //        //        claims.Add(new Claim(ClaimTypes.Role, x));
-        //        //    }
-
-
-        //        //    var jwt = new JwtSecurityToken(
-        //        //        issuer: _options.Issuer,
-        //        //        audience: _options.Audience,
-        //        //        claims: claims,
-        //        //        notBefore: now,
-        //        //        expires: now.Add(_options.Expiration),
-        //        //        signingCredentials: _options.SigningCredentials);
-
-        //        //    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-        //        var encodedJwt = _jwtHelper.GenerateToken(acc);//, apis);
-
-        //        var response = new
-        //        {
-        //            access_token = encodedJwt,
-        //            expires_in = (int)_options.Expiration.TotalSeconds
-        //        };
-
-        //        context.Response.ContentType = "application/json";
-        //        await context.Response.WriteAsync(JsonConvert.SerializeObject(response,
-        //            new JsonSerializerSettings
-        //            {
-        //                Formatting = Formatting.Indented
-        //            }));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        context.Response.StatusCode = 400;
-        //        await context.Response.WriteAsync($"Exception {ex.Message}");
-        //        return;
-        //    }
-        //}
 
         private async Task RefreshToken(HttpContext context)
         {
