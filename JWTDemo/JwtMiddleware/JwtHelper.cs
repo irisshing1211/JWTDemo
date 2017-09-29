@@ -17,44 +17,36 @@ namespace JWTDemo.JWTHepler
     public class JwtHelper
     {
         private string _token;
+        private byte[] _key;
         private AccountDAL _accountDAL;
         // private TokenProviderOptions _options;
         private JwtSetting _setting;
-        // private string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
-        /// <summary>
-        /// common
-        /// </summary>
-        public JwtHelper() { }
+
         /// <summary>
         /// for vaildate -> re-generate token, account dal for check the account still exist
         /// </summary>
         /// <param name="context">current request context</param>
         /// <param name="accountDAL">account dal</param>
-        //public JwtHelper(HttpContext context, AccountDAL accountDAL, TokenProviderOptions options)
-        //{
-        //    context.Request.Headers.TryGetValue("Authorization", out var token);
-        //    _token = token;
-        //    _token = _token.Replace("Bearer ", "");
-        //    _accountDAL = accountDAL;
-        //    _options = options;
-        //}
-        public JwtHelper(HttpContext context, AccountDAL accountDAL, JwtSetting options)
+        ///<param name="setting"></param>
+        public JwtHelper(HttpContext context, AccountDAL accountDAL, JwtSetting setting)
         {
             context.Request.Headers.TryGetValue("Authorization", out var token);
             _token = token;
             _token = _token.Replace("Bearer ", "");
             _accountDAL = accountDAL;
-            _setting = options;
+            _setting = setting;
+            _key = Convert.FromBase64String(setting.Key);
         }
         /// <summary>
         /// for Generate token
         /// </summary>
         /// <param name="accountDAL"></param>
-        /// <param name="options"></param>
-        public JwtHelper(AccountDAL accountDAL, JwtSetting options)
+        /// <param name="setting"></param>
+        public JwtHelper(AccountDAL accountDAL, JwtSetting setting)
         {
             _accountDAL = accountDAL;
-            _setting = options;
+            _setting = setting;
+            _key = Convert.FromBase64String(setting.Key);
         }
         /// <summary>
         /// generate token by user name and accessible api list
@@ -68,8 +60,10 @@ namespace JWTDemo.JWTHepler
             {
                 AccId = acc.ID,
                 ExpireMin = _setting.Expire,//.Expiration,
-                ExpireTime = DateTime.Now.AddMinutes(_setting.Expire),
-                UserName = acc.UserName//,
+                // ExpireTime = DateTime.Now.AddMinutes(_setting.Expire),
+                UserName = acc.UserName,
+                aud = _setting.audience,
+                iss = _setting.issuer
                 //Apis = apis
             };
             //new Dictionary<string, object>
@@ -85,7 +79,7 @@ namespace JWTDemo.JWTHepler
             IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
             IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
 
-            var token = encoder.Encode(payload, _setting.Key);
+            var token = encoder.Encode(payload, _key);
             return token;
         }
         /// <summary>
@@ -103,7 +97,7 @@ namespace JWTDemo.JWTHepler
                 return JWTStatus.Invalid;
 
             //check expire
-            if (jwtobj.ExpireTime <= DateTime.Now)
+            if (jwtobj.exp <= DateTime.Now)
                 return JWTStatus.Timeout;
 
             return JWTStatus.Valid;
@@ -162,7 +156,7 @@ namespace JWTDemo.JWTHepler
                 IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
 
-                var json = decoder.Decode(_token, _setting.Key, verify: true);
+                var json = decoder.Decode(_token, _key, verify: true);
                 return JsonConvert.DeserializeObject<JwtModel>(json);
                 // Console.WriteLine(json);
             }
