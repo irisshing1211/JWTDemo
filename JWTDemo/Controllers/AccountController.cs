@@ -25,7 +25,7 @@ namespace JWTDemo.Controllers
         ILogger<AccountController> _logger;
 
         public AccountController(BaseEntities db, 
-            IOptions<TokenProviderOptions> options, 
+            IOptions<JwtSetting> options, 
             ILogger<AccountController> logger) :base(db, options, logger)
         {
             _entity = db;

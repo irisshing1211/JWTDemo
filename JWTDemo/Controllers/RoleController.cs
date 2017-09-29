@@ -20,7 +20,7 @@ namespace JWTDemo.Controllers
         private RoleDAL _roleDAL;
         private ILogger<RoleController> _logger;
 
-        public RoleController(BaseEntities db, IOptions<TokenProviderOptions> options, ILogger<RoleController> logger) : base(db, options, logger)
+        public RoleController(BaseEntities db, IOptions<JwtSetting> options, ILogger<RoleController> logger) : base(db, options, logger)
         {
             _roleDAL = new RoleDAL(db);
             _logger = logger;

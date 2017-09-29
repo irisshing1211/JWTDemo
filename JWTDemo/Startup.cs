@@ -24,9 +24,7 @@ namespace JWTDemo
 {
     public class Startup
     {
-        private static readonly string secretKey = "mysupersecret_secretkey!123";
-        private static readonly string issure = "issure";
-        private static readonly string audience = "audience";
+        private static string secretKey, issuer, audience;// "mysupersecret_secretkey!123";
         private static SymmetricSecurityKey signingKey;
 
         //public Startup(IConfiguration configuration)
@@ -43,6 +41,7 @@ namespace JWTDemo
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
         }
         // public IConfiguration Configuration { get; }
         public IConfigurationRoot Configuration { get; }
@@ -50,6 +49,10 @@ namespace JWTDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            secretKey = Configuration.GetSection("JwtSetting").GetSection("Key").Value;
+            audience = Configuration.GetSection("JwtSetting").GetSection("audience").Value;
+            issuer = Configuration.GetSection("JwtSetting").GetSection("issuer").Value;
+
             signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             // Add framework services.
             services.AddDbContext<BaseEntities>(
@@ -68,7 +71,7 @@ namespace JWTDemo
 
                 //Validate the JWT Issuer (iss) claim
                 ValidateIssuer = true,
-                ValidIssuer = issure,
+                ValidIssuer = issuer,
 
                 //validate the JWT Audience (aud) claim
 
@@ -92,7 +95,8 @@ namespace JWTDemo
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
-           
+            services.Configure<JwtSetting>(o => Configuration.GetSection("JwtSetting").Bind(o));
+
             //    services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             //  services.AddSwaggerGen();
         }
@@ -109,14 +113,15 @@ namespace JWTDemo
             var jwtOptions = new TokenProviderOptions
             {
                 Audience = audience,
-                Issuer = issure,
+                Issuer = issuer,
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
-                Key = secretKey
+                Key = secretKey,
+                Expiration = int.Parse(Configuration.GetSection("JwtSetting").GetSection("Expire").Value.ToString())
             };
             app.UseJWTTokenProviderMiddleware(Options.Create(jwtOptions));
 
             app.UseMvc();
-           
+
 
         }
     }

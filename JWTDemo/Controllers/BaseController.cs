@@ -18,13 +18,13 @@ namespace JWTDemo.Controllers
     public class BaseController : Controller
     {
         public BaseEntities _db;
-        private TokenProviderOptions _options;
+        public JwtSetting _jwtSetting;
         ILogger<BaseController> _logger;
 
-        public BaseController(BaseEntities db, IOptions<TokenProviderOptions> options, ILogger<BaseController> logger)
+        public BaseController(BaseEntities db, IOptions<JwtSetting> jwtSetting, ILogger<BaseController> logger)
         {
             _db = db;
-            _options = options.Value;
+            _jwtSetting = jwtSetting.Value;
             _logger = logger;
         }
         public void Logging(int loggingEvents, string message)//, object obj)
