@@ -9,6 +9,8 @@ using Microsoft.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Microsoft.Extensions.Configuration;
+using JWTDemo.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JWTDemo
 {
@@ -25,10 +27,10 @@ namespace JWTDemo
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Debug()
                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-               .Enrich.FromLogContext()               
+               .Enrich.FromLogContext()
                .WriteTo.Console()
                .ReadFrom.Configuration(configuration)
-              // .WriteTo.RollingFile("log-{Date}.txt")
+               // .WriteTo.RollingFile("log-{Date}.txt")
                .CreateLogger();
 
             //BuildWebHost(args).Run();
@@ -44,6 +46,25 @@ namespace JWTDemo
                     .UseConfiguration(configuration)
                     .UseSerilog()
                     .Build();
+
+                #region db seed
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+
+                    try
+                    {
+                        var db = services.GetRequiredService<BaseEntities>();
+                        Log.Information("Initializing db data....");
+                        DbInitializer.Initialize(db);
+                        Log.Information("Db data initialized.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex.Message);
+                    }
+                }
+                #endregion
 
                 host.Run();
 
