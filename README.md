@@ -16,7 +16,7 @@ Aim to demo how to call jwt api in C# program
 
 Also, please open it with visual studio 2017 and .Net Core 2
 
-# Refence
+# Reference
 
 Call JWT api in ajax:
 https://stackoverflow.com/questions/35861012/how-to-send-a-token-with-an-ajax-request-from-jquery
