@@ -6,6 +6,6 @@ Please open the solution with Visual Studio 2017 Community
 
 Make sure updated to .Net Core 2 (https://www.microsoft.com/net/download/core)
 
-1. Update-Datebase
-2. Run
+1. Update-Datebase (create structure only)
+2. Run (seed data)
 3. Then you can test the api(s)
