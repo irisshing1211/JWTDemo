@@ -56,16 +56,26 @@ namespace JWTDemo.JWTHepler
         /// <returns>token</returns>
         public string GenerateToken(Account acc)//, List<string> apis)
         {
+
             var payload = new JwtModel
             {
                 AccId = acc.ID,
-                ExpireMin = _setting.Expire,//.Expiration,
-                // ExpireTime = DateTime.Now.AddMinutes(_setting.Expire),
+                ExpireMin = _setting.Expire,
                 UserName = acc.UserName,
                 aud = _setting.audience,
                 iss = _setting.issuer
                 //Apis = apis
             };
+
+            IDateTimeProvider provider = new UtcDateTimeProvider();
+            var now = provider.GetNow();
+            var exp = now.AddMinutes(_setting.Expire);
+
+            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // or use JwtValidator.UnixEpoch
+            var secondsSinceEpoch = Math.Round((now - unixEpoch).TotalSeconds);
+
+            payload.nbf= Math.Round((now - unixEpoch).TotalSeconds);
+            payload.exp = Math.Round((exp - unixEpoch).TotalSeconds);
             //new Dictionary<string, object>
             //{
             //    { "UserName", userName },
@@ -97,8 +107,8 @@ namespace JWTDemo.JWTHepler
                 return JWTStatus.Invalid;
 
             //check expire
-            if (jwtobj.exp <= DateTime.Now)
-                return JWTStatus.Timeout;
+            //if (jwtobj.exp <= DateTime.Now)
+            //    return JWTStatus.Timeout;
 
             return JWTStatus.Valid;
         }
@@ -156,15 +166,15 @@ namespace JWTDemo.JWTHepler
                 IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
                 IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
 
-                var json = decoder.Decode(_token, _key, verify: true);
-                return JsonConvert.DeserializeObject<JwtModel>(json);
+                var json = decoder.DecodeToObject<JwtModel>(_token, _key, verify: true);
+                return json;//JsonConvert.DeserializeObject<JwtModel>(json);
                 // Console.WriteLine(json);
             }
-            catch (TokenExpiredException)
+            catch (TokenExpiredException tex)
             {
                 return new JwtModel();
             }
-            catch (SignatureVerificationException)
+            catch (SignatureVerificationException signEx)
             {
                 return new JwtModel();
             }
