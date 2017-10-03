@@ -125,24 +125,26 @@ namespace JWTDemo
 
         }
     }
-    //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BaseEntities>
-    //{
-    //    public BaseEntities CreateDbContext(string[] args)
-    //    {
-    //        IConfigurationRoot configuration = new ConfigurationBuilder()
-    //            .SetBasePath(Directory.GetCurrentDirectory())
-    //            .AddJsonFile("appsettings.json")
-    //            .Build();
+    #region for creaete db only
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BaseEntities>
+    {
+        public BaseEntities CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-    //        var builder = new DbContextOptionsBuilder<BaseEntities>();
+            var builder = new DbContextOptionsBuilder<BaseEntities>();
 
-    //        var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-    //        builder.UseSqlServer(connectionString);
+            builder.UseSqlServer(connectionString);
 
-    //        return new BaseEntities(builder.Options);
-    //    }
-    //}
+            return new BaseEntities(builder.Options);
+        }
+    }
+    #endregion
 
 
 }
