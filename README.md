@@ -1,3 +1,6 @@
+# Update
+Add publish setting
+
 # JWTDemo
 A demo of .Net Core 2 Web Api with JWT
 
@@ -16,6 +19,18 @@ Aim to demo how to call jwt api in C# program
 
 Also, please open it with visual studio 2017 and .Net Core 2
 
+# .Net Core
+How to publish , if target platform is `win10-x64`
+1. Edit .csproj, add 
+  `<PropertyGroup>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+  </PropertyGroup>`
+2. In Nuget package console, `dotnet restore` to makesure all packages are installed properly.
+3. In Nuget package console, `dotnet restore -r win10-x64` to install packages which can run in the target platform.
+4. Right click project select `Publish`
+5. .exe will found in `bin\Release\netcoreapp2.0\target platform`
+
+
 # Reference
 
 Call JWT api in ajax:
@@ -29,4 +44,8 @@ https://github.com/jwt-dotnet/jwt
 
 To test and decode JWT:
 https://jwt.io/
+
+Deploying .NET Core apps with Visual Studio
+https://docs.microsoft.com/en-us/dotnet/core/deploying/deploy-with-vs
+
 
