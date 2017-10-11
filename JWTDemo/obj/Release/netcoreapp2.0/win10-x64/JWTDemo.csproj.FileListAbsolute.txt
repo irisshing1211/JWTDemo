@@ -1,0 +1,14 @@
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\hostpolicy.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\hostfxr.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.exe
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.deps.json
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.runtimeconfig.json
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.runtimeconfig.dev.json
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.pdb
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.csprojResolveAssemblyReference.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.csproj.CoreCompileInputs.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.AssemblyInfoInputs.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.AssemblyInfo.cs
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.pdb
