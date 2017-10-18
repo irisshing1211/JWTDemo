@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace JWTDemo.Migrations
+namespace JWTDemo.Data.Migrations
 {
     [DbContext(typeof(BaseEntities))]
     partial class BaseEntitiesModelSnapshot : ModelSnapshot

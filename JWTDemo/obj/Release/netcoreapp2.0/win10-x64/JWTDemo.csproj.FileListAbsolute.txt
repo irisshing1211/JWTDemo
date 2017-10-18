@@ -12,3 +12,5 @@ C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64
 C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.AssemblyInfo.cs
 C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.dll
 C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\obj\Release\netcoreapp2.0\win10-x64\JWTDemo.pdb
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.Data.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo\bin\Release\netcoreapp2.0\win10-x64\JWTDemo.Data.pdb

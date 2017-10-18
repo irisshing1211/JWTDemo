@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace JWTDemo.Migrations
+namespace JWTDemo.Data.Migrations
 {
     [DbContext(typeof(BaseEntities))]
-    [Migration("20170922043823_Init")]
-    partial class Init
+    [Migration("20171018070902_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
