@@ -1,0 +1,9 @@
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\bin\Release\netcoreapp2.0\JWTDemo.Data.deps.json
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\bin\Release\netcoreapp2.0\JWTDemo.Data.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.csprojResolveAssemblyReference.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.csproj.CoreCompileInputs.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.AssemblyInfoInputs.cache
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.AssemblyInfo.cs
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\bin\Release\netcoreapp2.0\JWTDemo.Data.pdb
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.dll
+C:\Users\iris\Desktop\GitHub\JWTDemo\JWTDemo.Data\obj\Release\netcoreapp2.0\JWTDemo.Data.pdb
