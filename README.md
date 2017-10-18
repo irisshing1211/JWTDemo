@@ -1,4 +1,7 @@
 # Update
+##2017-10-18
+Separate Data part from main project
+
 Add publish setting
 
 # JWTDemo
