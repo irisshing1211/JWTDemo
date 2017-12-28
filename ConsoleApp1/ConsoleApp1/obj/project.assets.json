@@ -3574,11 +3574,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\iris\\Desktop\\iris\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+      "projectUniqueName": "C:\\Users\\iris\\Desktop\\GitHub\\JWTDemo\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
       "projectName": "ConsoleApp1",
-      "projectPath": "C:\\Users\\iris\\Desktop\\iris\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+      "projectPath": "C:\\Users\\iris\\Desktop\\GitHub\\JWTDemo\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
       "packagesPath": "C:\\Users\\iris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\iris\\Desktop\\iris\\ConsoleApp1\\ConsoleApp1\\obj\\",
+      "outputPath": "C:\\Users\\iris\\Desktop\\GitHub\\JWTDemo\\ConsoleApp1\\ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
